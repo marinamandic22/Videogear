@@ -15,7 +15,7 @@ use yii\helpers\Url;
 ?>
 
 <?= GridView::widget([
-    'id' => User::INDEX_GRID_ID,
+    'id' => $gridId,
     'dataProvider' => $dataProvider,
     'enableAdd' => true,
     'addButtonOption' => [
