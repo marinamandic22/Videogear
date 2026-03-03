@@ -62,7 +62,7 @@ class Order extends ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public static function tableName(): string
+    public static function tableName()
     {
         return 'order';
     }
@@ -70,7 +70,7 @@ class Order extends ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules(): array
+    public function rules()
     {
         return [
             [['subtotal', 'total_tax', 'total_discount', 'shipping_cost', 'total'], 'number'],
@@ -89,7 +89,7 @@ class Order extends ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels(): array
+    public function attributeLabels()
     {
         return [
             'id' => Yii::t('app', 'ID'),
@@ -121,7 +121,7 @@ class Order extends ActiveRecord
         ];
     }
 
-    public function scenarios(): array
+    public function scenarios()
     {
         return ArrayHelper::merge(parent::scenarios(), [
             self::SCENARIO_UPDATE_STATUS => ['status'],
@@ -131,7 +131,7 @@ class Order extends ActiveRecord
         ]);
     }
 
-    public function fields(): array
+    public function fields()
     {
         $fields = parent::fields();
 
