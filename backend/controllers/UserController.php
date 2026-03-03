@@ -27,12 +27,12 @@ use yii\filters\VerbFilter;
 class UserController extends BaseController
 {
     public $modelClass = User::class;
-    public $searchModelClass = UserSearch::class;
+    public string $searchModelClass = UserSearch::class;
 
     /**
      * @inheritDoc
      */
-    public function behaviors()
+    public function behaviors(): array
     {
         return
             [

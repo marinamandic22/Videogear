@@ -3,8 +3,8 @@
 namespace common\models\forms;
 
 use common\models\User;
-use phpDocumentor\Reflection\Types\Static_;
 use Yii;
+use yii\db\Exception;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -26,7 +26,7 @@ class RegistrationForm extends User
     public $confirm_password;
     public $role;
 
-    public function getBaseName()
+    public function getBaseName(): string
     {
         return Yii::t('app', 'User');
     }
@@ -34,7 +34,7 @@ class RegistrationForm extends User
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return ArrayHelper::merge(parent::rules(), [
             [['password', 'confirm_password'], 'required', 'on' => [static::SCENARIO_ADMIN_REGISTRATION, static::SCENARIO_CUSTOMER_REGISTRATION]],
@@ -55,7 +55,7 @@ class RegistrationForm extends User
         ]);
     }
 
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return ArrayHelper::merge(parent::attributeLabels(), [
             'role' => Yii::t('app', 'Role'),
@@ -64,18 +64,18 @@ class RegistrationForm extends User
         ]);
     }
 
-    public function scenarios()
+    public function scenarios(): array
     {
         $allAttributes = $this->getAllAttributeNames();
 
         return ArrayHelper::merge(parent::scenarios(), [
             static::SCENARIO_ADMIN_REGISTRATION => $allAttributes,
-            static::SCENARIO_ADMIN_UPDATE => array_diff($allAttributes, ['role', 'username']),
+            static::SCENARIO_ADMIN_UPDATE => array_diff($allAttributes, ['username']),
             static::SCENARIO_CUSTOMER_REGISTRATION => array_diff($allAttributes, ['role'])
         ]);
     }
 
-    public function beforeValidate()
+    public function beforeValidate(): bool
     {
         $this->username = empty($this->username) ? $this->email : $this->username;
         $this->status = $this->status ?: static::STATUS_ACTIVE;
@@ -83,8 +83,10 @@ class RegistrationForm extends User
         return parent::beforeValidate();
     }
 
-
-    public function save($runValidation = true, $attributeNames = null)
+    /**
+     * @throws Exception
+     */
+    public function save($runValidation = true, $attributeNames = null): bool
     {
         if (!$this->validate()) {
             return false;
