@@ -1,0 +1,200 @@
+<section class="shop-container">
+  <ecm-header></ecm-header>
+
+  <section class="shop-header">
+    <!-- Category Header (if filtered) -->
+    <div
+      *ngIf="selectedCategorySlug && selectedCategory && !isSearchMode && !loading"
+      class="category-header content-fade-in">
+      <img
+        *ngIf="selectedCategory.cover_image_id"
+        [src]="getImageUrl(selectedCategory.cover_image_id)"
+        class="category-cover">
+      <h4 class="category-title">{{ selectedCategory.name }}</h4>
+      <div
+        class="category-description"
+        [innerHTML]="selectedCategory.description"></div>
+    </div>
+  </section>
+
+  <section class="shop-content-container container">
+    <!-- Loading Spinner -->
+    <ecm-loader [visible]="loading"></ecm-loader>
+
+    <!-- Content (always rendered, fades in when ready) -->
+    <div
+      [class.content-fade-in]="!loading"
+      [class.content-hidden]="loading">
+
+      <!-- Search Results Header -->
+      <div
+        *ngIf="isSearchMode"
+        class="mt-4 mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h4 class="m-0">
+            {{ "base.search_results" | translate }}: "{{ searchQuery }}"
+            <span class="badge bg-secondary ms-2">
+              {{ totalCount }} {{ "base.results" | translate }}
+            </span>
+          </h4>
+          <button
+            class="btn btn-sm btn-outline-secondary"
+            (click)="clearSearch()">
+            <i class="fa fa-times me-1"></i>
+            {{ "base.clear_search" | translate }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Products Grid (for search and category filter) -->
+      <div
+        *ngIf="(isSearchMode || selectedCategorySlug) && filteredProducts.length > 0"
+        class="products-grid">
+        <div
+          *ngFor="let product of filteredProducts"
+          class="product-grid-item">
+          <ecm-product-card
+            [product]="product"
+            class="product-grid-item-card"></ecm-product-card>
+        </div>
+      </div>
+
+      <!-- Empty state (search / category no results) -->
+      <div
+        *ngIf="!loading && (isSearchMode || selectedCategorySlug) && filteredProducts.length === 0"
+        class="m-auto text-center p-5">
+        <i class="fa fa-search fa-3x text-muted mb-3"></i>
+        <p
+          class="text-muted"
+          *ngIf="isSearchMode">
+          {{ "shop.no_products_search" | translate }} "{{ searchQuery }}"
+        </p>
+        <p
+          class="text-muted"
+          *ngIf="!isSearchMode">
+          {{ "shop.no_products_category" | translate }}
+        </p>
+      </div>
+
+      <!-- All Categories with Products (when not filtered and not searching) -->
+      <div *ngIf="!selectedCategorySlug && !isSearchMode">
+        <div class="category-section mt-4">
+          <h4 class="category-title">{{ "shop.all_products" | translate }}</h4>
+          <div class="products-grid mt-4">
+            <div
+              *ngFor="let product of products"
+              class="product-grid-item">
+              <ecm-product-card [product]="product"></ecm-product-card>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pagination Controls -->
+      <div
+        *ngIf="totalPages > 1 && !loading"
+        class="card mt-4">
+        <div class="card-body">
+          <nav aria-label="Product pagination">
+            <ul class="pagination justify-content-center mb-0">
+              <!-- Previous Button -->
+              <li
+                class="page-item"
+                [class.disabled]="currentPage === 1">
+                <a
+                  class="page-link"
+                  (click)="prevPage()"
+                  [attr.aria-label]="'base.previous' | translate"><span aria-hidden="true">«</span>
+                </a>
+              </li>
+
+              <!-- First Page -->
+              <li
+                *ngIf="getPageNumbers()[0] > 1"
+                class="page-item">
+                <a
+                  class="page-link"
+                  (click)="goToPage(1)">
+                  1
+                </a>
+              </li>
+
+              <!-- Ellipsis -->
+              <li
+                *ngIf="getPageNumbers()[0] > 2"
+                class="page-item disabled">
+                <span class="page-link">...</span>
+              </li>
+
+              <!-- Page Numbers -->
+              <li
+                *ngFor="let pageNum of getPageNumbers()"
+                class="page-item"
+                [class.active]="pageNum === currentPage">
+                <a
+                  class="page-link"
+                  (click)="goToPage(pageNum)">
+                  {{ pageNum }}
+                </a>
+              </li>
+
+              <!-- Ellipsis -->
+              <li
+                *ngIf="getPageNumbers()[getPageNumbers().length - 1] < totalPages - 1"
+                class="page-item disabled">
+                <span class="page-link">...</span>
+              </li>
+
+              <!-- Last Page -->
+              <li
+                *ngIf="getPageNumbers()[getPageNumbers().length - 1] < totalPages"
+                class="page-item">
+                <a
+                  class="page-link"
+                  (click)="goToPage(totalPages)">
+                  {{ totalPages }}
+                </a>
+              </li>
+
+              <!-- Next Button -->
+              <li
+                class="page-item"
+                [class.disabled]="currentPage === totalPages">
+                <a
+                  class="page-link"
+                  (click)="nextPage()"
+                  [attr.aria-label]="'base.next' | translate"><span aria-hidden="true">»</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+
+          <!-- Pagination Info -->
+          <div class="text-center mt-3">
+            <small class="text-muted">
+              {{ "base.showing" | translate }}
+              {{ (currentPage - 1) * perPage + 1 }} -
+              {{ Math.min(currentPage * perPage, totalCount) }}
+              {{ "base.of" | translate }} {{ totalCount }}
+              {{ "base.products" | translate }}
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State (no products at all) -->
+      <div
+        *ngIf="!loading && products.length === 0 && !selectedCategorySlug && !isSearchMode"
+        class="card mt-4">
+        <div class="card-body text-center p-5">
+          <h5>{{ "shop.no_products" | translate }}</h5>
+          <p class="text-muted">{{ "shop.check_back" | translate }}</p>
+        </div>
+      </div>
+
+    </div>
+    <!-- /content wrapper -->
+  </section>
+
+  <ecm-footer *ngIf="!loading"></ecm-footer>
+</section>

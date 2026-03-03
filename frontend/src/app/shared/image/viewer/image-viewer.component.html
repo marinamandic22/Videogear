@@ -1,0 +1,32 @@
+<section class="image-viewer">
+  <div class="d-flex align-items-center justify-content-evenly h-100">
+    <button
+      class="btn btn-link nav-button-back"
+      (click)="handlePrev()"
+      *ngIf="imageIds.length > 1">
+      <i class="fa fa-lg fa-chevron-left d-none d-lg-inline-block"></i>
+    </button>
+    <div class="image-container">
+      <span
+        class="btn btn-close btn-close-white ms-auto mb-2 px-0"
+        (click)="handleClose($event)">
+      </span>
+      <div
+        class="loader d-flex justify-content-center align-items-center"
+        *ngIf="showLoader">
+        <i class="fa fa-spinner fa-spin fa-2x"></i>
+      </div>
+      <img
+        src="{{getImageUrl()}}"
+        alt="Image"
+        (load)="handleImageLoaded()">
+    </div>
+    <button
+      class="btn btn-link nav-button-next"
+      (click)="handleNext()"
+      *ngIf="imageIds.length > 1">
+      <i class="fa fa-lg fa-chevron-right d-none d-lg-inline-block"></i>
+    </button>
+  </div>
+</section>
+<div class="image-viewer-backdrop"></div>

@@ -1,0 +1,49 @@
+<div class="product-card card">
+  <!-- Product Image and Info (Clickable) -->
+  <a
+    [routerLink]="['/product', product.slug]"
+    class="card-link">
+    <div class="product-image-wrapper">
+      <img
+        *ngIf="product.cover_image_id"
+        [src]="getImageUrl(product.cover_image_id)"
+        [alt]="product.name"
+        class="product-image">
+      <div
+        class="product-image-placeholder"
+        *ngIf="!product.cover_image_id">
+        <i class="fa fa-image"></i>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <h5 class="product-name">{{product.name}}</h5>
+
+      <div class="price-section">
+        <div class="price-main">{{getDisplayPrice() | currency}}</div>
+        <div class="price-vat">
+          {{vatService.getVatLabel()}}: {{getPriceWithoutVat(getDisplayPrice()) | number:'1.2-2'}} KM
+        </div>
+      </div>
+    </div>
+
+    <!-- Add to Cart Button -->
+    <div class="card-footer">
+      <button
+        class="btn btn-add-cart w-100"
+        [class.btn-added]="isAddedToCart"
+        (click)="addToCart(); $event.stopPropagation(); $event.preventDefault()"
+        [disabled]="getDisplayQuantity() <= 0 || isAtMaxCartQuantity()">
+        <i
+          class="me-2"
+          [ngClass]="isAddedToCart ? 'fa fa-check' : 'fa fa-shopping-cart'"></i>
+        <ng-container *ngIf="isAddedToCart">{{ 'product.added' | translate }}</ng-container>
+        <ng-container *ngIf="!isAddedToCart">
+          <ng-container *ngIf="getDisplayQuantity() <= 0">{{ 'product.out_of_stock_btn' | translate }}</ng-container>
+          <ng-container *ngIf="getDisplayQuantity() > 0 && isAtMaxCartQuantity()">{{ 'cart.max_qty_reached' | translate }}</ng-container>
+          <ng-container *ngIf="getDisplayQuantity() > 0 && !isAtMaxCartQuantity()">{{ 'product.add_to_cart' | translate }}</ng-container>
+        </ng-container>
+      </button>
+    </div>
+  </a>
+</div>

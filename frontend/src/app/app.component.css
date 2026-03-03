@@ -1,0 +1,8 @@
+.router-wrapper {
+  opacity: 0;
+  transition: opacity 0.35s ease-out;
+}
+
+.router-wrapper.content-ready {
+  opacity: 1;
+}

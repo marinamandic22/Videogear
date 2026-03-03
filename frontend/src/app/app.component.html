@@ -1,0 +1,6 @@
+<section id="main-container" class="position-relative">
+  <ecm-loader [fullScreen]="true" [visible]="loading"></ecm-loader>
+  <div class="router-wrapper" [class.content-ready]="contentReady && !loading">
+    <router-outlet></router-outlet>
+  </div>
+</section>

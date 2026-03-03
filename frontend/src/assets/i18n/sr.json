@@ -1,0 +1,119 @@
+{
+  "base": {
+    "cart": "Korpa",
+    "back": "Nazad",
+    "add": "Dodaj",
+    "total": "Ukupno",
+    "thanks": "Hvala",
+    "search": "Pretraži",
+    "menu": "Meni",
+    "view_all": "Pogledaj sve",
+    "close": "Zatvori",
+    "toggle_navigation": "Prikaži navigaciju",
+    "search_results": "Rezultati pretrage",
+    "results": "rezultata",
+    "clear_search": "Obriši pretragu",
+    "previous": "Prethodna",
+    "next": "Sljedeća",
+    "showing": "Prikazano",
+    "of": "od",
+    "products": "proizvoda",
+    "home": "Početna",
+    "loading": "Učitavanje..."
+  },
+  "lang": {
+    "switch_to": "EN",
+    "current": "SR",
+    "english": "Engleski",
+    "serbian": "Srpski"
+  },
+  "cart": {
+    "checkout": "Naruči",
+    "place_order": "Pošalji narudžbu",
+    "subtotal": "Međuzbir",
+    "qty": "Kol.",
+    "remove": "Ukloni iz korpe",
+    "checkout_details": "Detalji narudžbe",
+    "order_summary": "Pregled narudžbe",
+    "processing": "Obrađivanje...",
+    "max_qty_reached": "Dostignuta maksimalna količina",
+    "field": {
+      "fullName": "Ime i prezime",
+      "address": "Adresa",
+      "city": "Grad",
+      "zip": "Poštanski broj",
+      "email": "Email",
+      "phone": "Broj telefona",
+      "notes": "Dodatne informacije (opcionalno)",
+      "enter_name": "Unesite ime i prezime",
+      "enter_email": "Unesite email adresu",
+      "enter_address": "Unesite adresu dostave",
+      "enter_city": "Unesite grad",
+      "enter_zip": "Unesite ZIP",
+      "enter_phone": "Unesite broj telefona",
+      "add_instructions": "Dodajte posebne napomene (opcionalno)"
+    },
+    "error": {
+      "requiredFullName": "Ime je obavezno!",
+      "requiredAddress": "Adresa je obavezna!",
+      "requiredCity": "Grad je obavezan!",
+      "requiredZip": "Poštanski broj je obavezan!",
+      "requiredEmail": "Email je obavezan!",
+      "requiredPhone": "Broj telefona je obavezan!",
+      "badEmailFormat": "Pogrešan format emaila!",
+      "invalidEmail": "Neispravan format emaila!"
+    },
+    "empty": "Korpa je prazna!",
+    "orderOnTheWay": "Vaša narudžba je na putu!",
+    "minOrderTotalMsg": "Minimalna narudžba za dostavu je {{param}}!",
+    "closed": "Zatvoreno!!!"
+  },
+  "product": {
+    "in_stock": "Na stanju",
+    "out_of_stock": "Nema na stanju",
+    "available": "dostupno",
+    "in_cart": "u korpi",
+    "sku": "Šifra",
+    "choose_option": "Izaberite opciju",
+    "quantity": "Količina",
+    "maximum": "Maksimum",
+    "add_to_cart": "DODAJ U KORPU",
+    "added_to_cart": "DODANO U KORPU!",
+    "added": "DODANO",
+    "out_of_stock_btn": "NEMA NA STANJU",
+    "description": "Opis"
+  },
+  "shop": {
+    "all_products": "Svi proizvodi",
+    "no_products_search": "Nema pronađenih proizvoda za",
+    "no_products_category": "Nema proizvoda u ovoj kategoriji.",
+    "no_products": "Nema dostupnih proizvoda",
+    "check_back": "Provjerite uskoro za nove proizvode!"
+  },
+  "not_found": {
+    "title": "Ups! Ta stranica nije pronađena.",
+    "message": "Izgleda da ništa nije pronađeno na ovoj lokaciji. Možda pokušajte link ispod?",
+    "go_home": "Početna stranica"
+  },
+  "footer": {
+    "description": "Stvaramo izvanredna digitalna iskustva za naše kupce širom svijeta.",
+    "all_rights": "Sva prava zadržana.",
+    "company": "Kompanija",
+    "support": "Podrška",
+    "legal": "Pravno",
+    "links": {
+      "about": "O nama",
+      "careers": "Karijere",
+      "press": "Press",
+      "blog": "Blog",
+      "help": "Centar za pomoć",
+      "contact": "Kontaktirajte nas",
+      "faq": "Česta pitanja",
+      "terms": "Uslovi korišćenja",
+      "privacy": "Politika privatnosti",
+      "cookies": "Politika kolačića",
+      "disclaimer": "Odricanje odgovornosti",
+      "sitemap": "Mapa sajta"
+    }
+  }
+}

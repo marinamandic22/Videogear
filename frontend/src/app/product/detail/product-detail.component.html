@@ -1,0 +1,211 @@
+<ecm-header></ecm-header>
+
+<ecm-loader
+  [fullScreen]="true"
+  [visible]="loading"></ecm-loader>
+
+<section
+  class="container py-4 content-fade-in"
+  *ngIf="product && !loading">
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a [routerLink]="['/']">{{ 'base.home' | translate }}</a></li>
+      <li
+        class="breadcrumb-item active"
+        aria-current="page">
+        {{ product.name }}
+      </li>
+    </ol>
+  </nav>
+
+  <div class="row">
+    <!-- Left Column - Images -->
+    <div class="col-lg-6 mb-4">
+      <!-- Main Image -->
+      <div class="main-image-container mb-5 me-0 me-md-3">
+        <img
+          *ngIf="selectedImageId"
+          [src]="getImageUrl(selectedImageId)"
+          [alt]="product.name"
+          class="img-fluid main-image"
+          (click)="openGallery()">
+        <div
+          *ngIf="!selectedImageId"
+          class="no-image">
+          <i class="fa fa-image fa-3x text-muted"></i>
+        </div>
+      </div>
+
+      <!-- Thumbnail Gallery -->
+      <div
+        class="thumbnail-gallery"
+        *ngIf="allImageIds.length > 1">
+        <div
+          *ngFor="let imageId of allImageIds"
+          class="thumbnail-item"
+          [class.active]="imageId === selectedImageId"
+          (click)="selectImage(imageId)">
+          <img
+            [src]="getImageUrl(imageId, 'w120_h120_fs1')"
+            [alt]="product.name"
+            class="img-fluid">
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column - Product Info -->
+    <div class="col-lg-6">
+      <div class="product-info px-0 px-md-3">
+        <!-- Product Title -->
+        <h1 class="product-title">{{ product.name }}</h1>
+
+        <!-- Availability Status -->
+        <div class="availability mb-3">
+          <span
+            class="badge"
+            [ngClass]="getDisplayQuantity() > 0 ? 'bg-success' : 'bg-danger'">
+            <i
+              class="me-2 fa"
+              [ngClass]="getDisplayQuantity() > 0 ? 'fa-check' : 'fa-times'"></i>
+            {{ getDisplayQuantity() > 0 ? ('product.in_stock' | translate) : ('product.out_of_stock' | translate) }}
+          </span>
+          <span
+            class="text-muted ms-2"
+            *ngIf="getDisplayQuantity() > 0">
+            ({{ getDisplayQuantity() }} {{ 'product.available' | translate }})
+          </span>
+          <!-- Show how many are already in the cart -->
+          <span
+            class="badge bg-secondary ms-2"
+            *ngIf="getCartQuantity() > 0">
+            <i class="fa fa-shopping-cart me-1"></i>
+            {{ getCartQuantity() }} {{ 'product.in_cart' | translate }}
+          </span>
+        </div>
+
+        <!-- SKU -->
+        <div
+          class="product-meta mb-3"
+          *ngIf="product.sku">
+          <strong>{{ 'product.sku' | translate }}: </strong>
+          <span class="text-muted">{{ product.sku }}</span>
+        </div>
+
+        <!-- Short Description -->
+        <p
+          class="short-description mb-4"
+          *ngIf="product.short_description">
+          {{ product.short_description }}
+        </p>
+
+        <!-- Price -->
+        <div class="price-section mb-4">
+          <div class="price-main">{{ getDisplayPrice() | currency }}</div>
+          <div class="price-vat text-muted small">
+            {{ vatService.getVatLabel() }}: {{ getPriceWithoutVat(getDisplayPrice()) | number : "1.2-2" }} KM
+          </div>
+        </div>
+
+        <!-- Variants -->
+        <div
+          class="variants-section mb-4"
+          *ngIf="product.variants && product.variants.length > 0">
+          <label class="form-label fw-bold">
+            {{ 'product.choose_option' | translate }}:
+          </label>
+          <select
+            [(ngModel)]="selectedVariantId"
+            (ngModelChange)="selectVariant($event.toString())"
+            class="form-select">
+            <option
+              *ngFor="let productVariant of product.variants"
+              [value]="productVariant.id">
+              {{ productVariant.name }} - {{ (productVariant.price || product.price) | currency }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Quantity -->
+        <div
+          class="quantity-section mb-4"
+          *ngIf="getDisplayQuantity() > 0">
+          <label class="form-label fw-bold">{{ 'product.quantity' | translate }}</label>
+          <div class="quantity-controls">
+            <button
+              class="btn btn-outline-secondary"
+              (click)="decreaseQuantity()"
+              [disabled]="quantity <= 1">
+              <i class="fa fa-minus"></i>
+            </button>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="quantity"
+              [max]="getAvailableToAdd()"
+              min="1"
+              readonly>
+            <button
+              class="btn btn-outline-secondary"
+              (click)="increaseQuantity()"
+              [disabled]="quantity >= getAvailableToAdd()">
+              <i class="fa fa-plus"></i>
+            </button>
+          </div>
+          <small class="text-muted">
+            {{ 'product.maximum' | translate }}: {{ getAvailableToAdd() }}
+          </small>
+        </div>
+
+        <!-- Add to Cart Button -->
+        <button
+          class="btn btn-add-to-cart btn-lg w-100 mb-3"
+          [class.btn-added]="isAddedToCart"
+          (click)="addToCart()"
+          [disabled]="getDisplayQuantity() <= 0 || getAvailableToAdd() <= 0">
+          <i
+            class="me-2 fa"
+            [ngClass]="isAddedToCart ? 'fa-check' : 'fa-shopping-cart'"></i>
+          <span *ngIf="!isAddedToCart">
+            <ng-container *ngIf="getDisplayQuantity() <= 0">
+              {{ 'product.out_of_stock_btn' | translate }}
+            </ng-container>
+            <ng-container *ngIf="getDisplayQuantity() > 0 && getAvailableToAdd() <= 0">
+              {{ 'cart.max_qty_reached' | translate }}
+            </ng-container>
+            <ng-container *ngIf="getAvailableToAdd() > 0">{{ 'product.add_to_cart' | translate }}</ng-container>
+          </span>
+          <span *ngIf="isAddedToCart">{{ 'product.added_to_cart' | translate }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full Description -->
+  <div
+    class="row mt-5"
+    *ngIf="product.description">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="mb-0">{{ 'product.description' | translate }}</h3>
+        </div>
+        <div class="card-body">
+          <div
+            class="product-description"
+            [innerHTML]="product.description"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- Image Viewer -->
+<ecm-image-viewer
+  *ngIf="showImageViewer"
+  [imageIds]="imageViewerImageIds"
+  (closeClicked)="closeImageViewer()">
+</ecm-image-viewer>
+
+<ecm-footer></ecm-footer>

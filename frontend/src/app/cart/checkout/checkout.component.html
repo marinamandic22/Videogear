@@ -1,0 +1,247 @@
+<div class="checkout-modern">
+  <!-- Success Message -->
+  <div
+    *ngIf="order"
+    class="order-completed-modern">
+    <div class="success-icon">
+      <i class="fa fa-check-circle"></i>
+    </div>
+    <h3 class="success-title">
+      {{'base.thanks' | translate}}, {{order.delivery_first_name}} {{order.delivery_last_name}}!
+    </h3>
+    <p class="success-message">{{'cart.orderOnTheWay' | translate}}</p>
+  </div>
+
+  <!-- Checkout Form -->
+  <div
+    *ngIf="!order"
+    class="checkout-form-container">
+    <!-- Back Button -->
+    <div class="checkout-header">
+      <button
+        class="btn btn-back"
+        (click)="onBackClick()">
+        <i class="fa fa-chevron-left me-2"></i>
+        {{'base.back' | translate}}
+      </button>
+      <h5 class="checkout-title">{{ 'cart.checkout_details' | translate }}</h5>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="order-summary">
+      <h6 class="summary-title">
+        <i class="fa fa-shopping-bag me-2"></i>
+        {{ 'cart.order_summary' | translate }}
+      </h6>
+      <div class="summary-items">
+        <div
+          *ngFor="let item of items"
+          class="summary-item">
+          <div class="summary-item-image">
+            <img
+              *ngIf="item.cover_image_id"
+              [src]="getImageUrl(item.cover_image_id)"
+              [alt]="item.name">
+            <div
+              *ngIf="!item.cover_image_id"
+              class="no-image-thumb">
+              <i class="fa fa-image"></i>
+            </div>
+          </div>
+          <div class="summary-item-info">
+            <p class="summary-item-name">{{item.name}}</p>
+            <p class="summary-item-details">{{item.quantity}} × {{item.price | currency}}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Totals Breakdown -->
+      <div class="summary-totals">
+        <div class="summary-total-row">
+          <span>{{'cart.subtotal' | translate}}:</span>
+          <span>{{subtotal | currency}}</span>
+        </div>
+        <div class="summary-total-row">
+          <span>{{vatLabel}} ({{(vatRate * 100)}}%):</span>
+          <span>{{tax | currency}}</span>
+        </div>
+        <div class="summary-total-row total-final">
+          <span>{{'base.total' | translate}}:</span>
+          <span>{{total | currency}}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form -->
+    <form
+      (ngSubmit)="onSubmit()"
+      [formGroup]="checkoutForm"
+      class="checkout-form">
+      <div class="form-section">
+        <label class="form-label">
+          <i class="fa fa-user me-2"></i>
+          {{'cart.field.fullName' | translate}}
+        </label>
+        <input
+          id="name"
+          type="text"
+          maxlength="100"
+          class="form-control"
+          [placeholder]="'cart.field.enter_name' | translate"
+          formControlName="name"
+          [ngClass]="{'is-invalid': isInvalidField('name')}">
+        <div class="invalid-feedback">
+          <span *ngIf="checkoutForm.get('name').errors?.required">
+            {{'cart.error.requiredFullName' | translate}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <label class="form-label">
+          <i class="fa fa-envelope me-2"></i>
+          {{'cart.field.email' | translate}}
+        </label>
+        <input
+          id="email"
+          type="email"
+          maxlength="100"
+          class="form-control"
+          [placeholder]="'cart.field.enter_email' | translate"
+          formControlName="email"
+          [ngClass]="{'is-invalid': isInvalidField('email')}">
+        <div class="invalid-feedback">
+          <span *ngIf="checkoutForm.get('email').errors?.required">
+            {{'cart.error.requiredEmail' | translate}}
+          </span>
+          <span *ngIf="checkoutForm.get('email').errors?.email">
+            {{'cart.error.invalidEmail' | translate}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <label class="form-label">
+          <i class="fa fa-map-marker me-2"></i>
+          {{'cart.field.address' | translate}}
+        </label>
+        <input
+          id="address"
+          type="text"
+          maxlength="255"
+          class="form-control"
+          [placeholder]="'cart.field.enter_address' | translate"
+          formControlName="address"
+          [ngClass]="{'is-invalid': isInvalidField('address')}">
+        <div class="invalid-feedback">
+          <span *ngIf="checkoutForm.get('address').errors?.required">
+            {{'cart.error.requiredAddress' | translate}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-row-inline">
+        <div class="form-section">
+          <label class="form-label">
+            <i class="fa fa-building me-2"></i>
+            {{'cart.field.city' | translate}}
+          </label>
+          <input
+            id="city"
+            type="text"
+            maxlength="100"
+            class="form-control"
+            [placeholder]="'cart.field.enter_city' | translate"
+            formControlName="city"
+            [ngClass]="{'is-invalid': isInvalidField('city')}">
+          <div class="invalid-feedback">
+            <span *ngIf="checkoutForm.get('city').errors?.required">
+              {{'cart.error.requiredCity' | translate}}
+            </span>
+          </div>
+        </div>
+
+        <div class="form-section form-section-zip">
+          <label class="form-label">
+            <i class="fa fa-hashtag me-2"></i>
+            {{'cart.field.zip' | translate}}
+          </label>
+          <input
+            id="zip"
+            type="text"
+            maxlength="20"
+            class="form-control"
+            [placeholder]="'cart.field.enter_zip' | translate"
+            formControlName="zip"
+            [ngClass]="{'is-invalid': isInvalidField('zip')}">
+          <div class="invalid-feedback">
+            <span *ngIf="checkoutForm.get('zip').errors?.required">
+              {{'cart.error.requiredZip' | translate}}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <label class="form-label">
+          <i class="fa fa-phone me-2"></i>
+          {{'cart.field.phone' | translate}}
+        </label>
+        <input
+          id="phone"
+          type="text"
+          maxlength="50"
+          class="form-control"
+          [placeholder]="'cart.field.enter_phone' | translate"
+          formControlName="phone"
+          mask="000/000-000||000/000-0000"
+          [ngClass]="{'is-invalid': isInvalidField('phone')}">
+        <div class="invalid-feedback">
+          <span *ngIf="checkoutForm.get('phone').errors?.required">
+            {{'cart.error.requiredPhone' | translate}}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <label class="form-label">
+          <i class="fa fa-sticky-note me-2"></i>
+          {{'cart.field.notes' | translate}}
+        </label>
+        <textarea
+          id="notes"
+          class="form-control"
+          rows="3"
+          maxlength="255"
+          [placeholder]="'cart.field.add_instructions' | translate"
+          formControlName="notes"
+          [ngClass]="{'is-invalid': isInvalidField('notes')}"></textarea>
+      </div>
+
+      <!-- Error Messages -->
+      <div
+        *ngIf="errors"
+        class="alert alert-danger">
+        <i class="fa fa-exclamation-triangle me-2"></i>
+        <span *ngFor="let error of errors | keyValue">
+          {{error.value}}
+        </span>
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        class="btn btn-lg btn-danger"
+        [disabled]="isSubmitting">
+        <span *ngIf="!isSubmitting">
+          <i class="fa fa-check-circle me-2"></i>
+          {{'cart.place_order' | translate}}
+        </span>
+        <span *ngIf="isSubmitting">
+          <i class="fa fa-spinner fa-spin me-2"></i>
+          {{ 'cart.processing' | translate }}
+        </span>
+      </button>
+    </form>
+  </div>
+</div>

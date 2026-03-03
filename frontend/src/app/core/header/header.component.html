@@ -1,0 +1,289 @@
+<!-- Top Bar with Logo, Search, and Cart -->
+<div class="top-bar bg-white py-3">
+  <div class="container">
+    <div class="row align-items-center">
+      <!-- Logo -->
+      <div class="col-auto">
+        <a
+          class="navbar-brand"
+          [routerLink]="['/']">
+          <img
+            src="/assets/images/logo.png"
+            alt="{{appName}}"
+            class="logo-img">
+        </a>
+      </div>
+
+      <!-- Spacer -->
+      <div class="col"></div>
+
+      <!-- Search and Cart (Desktop) -->
+      <div class="col-auto d-none d-lg-block">
+        <div class="d-flex align-items-center gap-3">
+          <!-- Search Bar -->
+          <form
+            class="search-form"
+            (submit)="onSearch(); $event.preventDefault()">
+            <div class="input-group">
+              <input
+                type="search"
+                class="form-control"
+                [placeholder]="'base.search' | translate"
+                [(ngModel)]="searchQuery"
+                name="search"
+                [attr.aria-label]="'base.search' | translate">
+              <button
+                class="btn btn-outline-secondary"
+                type="submit"
+                [attr.aria-label]="'base.search' | translate">
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </form>
+
+          <!-- Language Switcher -->
+          <button
+            class="btn btn-lang-switch"
+            (click)="switchLanguage()"
+            [title]="(currentLang === 'sr' ? ('lang.english' | translate) : ('lang.serbian' | translate))">
+            <span class="lang-label">{{ currentLang === 'sr' ? 'EN' : 'SR' }}</span>
+          </button>
+
+          <!-- Cart Icon -->
+          <a
+            class="cart-link position-relative d-flex align-items-center"
+            [routerLink]="['/cart']"
+            [attr.aria-label]="'base.cart' | translate">
+            <i class="fa fa-shopping-cart fa-2x text-dark"></i>
+            <span
+              *ngIf="cartItemCount > 0"
+              class="position-absolute badge rounded-circle bg-success cart-badge">
+              {{cartItemCount}}
+              <span class="visually-hidden">{{'base.cart' | translate}}</span>
+            </span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Mobile Toggle Button -->
+      <div class="col-auto d-lg-none">
+        <button
+          class="navbar-toggler border-0 p-0"
+          type="button"
+          (click)="toggleMobileMenu()"
+          [attr.aria-label]="'base.toggle_navigation' | translate">
+          <i class="fa fa-bars fa-2x text-dark"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main Navbar - Categories -->
+<nav class="main-navbar navbar navbar-expand-lg navbar-dark bg-red shadow-sm">
+  <div class="container">
+    <!-- Desktop Navigation -->
+    <div class="collapse navbar-collapse d-none d-lg-block">
+      <!-- Categories Navigation -->
+      <ul class="navbar-nav">
+        <li
+          *ngFor="let category of categories"
+          class="nav-item dropdown">
+          
+          <!-- Category Link -->
+          
+          <a
+            class="nav-link text-uppercase"
+            [routerLink]="['/category', category.slug]"
+            role="button">
+            {{category.name}}
+          </a>
+
+          
+          <!-- Dropdown Menu -->
+          
+          <ul
+            *ngIf="hasSubCategories(category)"
+            class="dropdown-menu">
+            <!-- View All Link -->
+            <li>
+              <a
+                [routerLink]="['/category', category.slug]"
+                class="dropdown-item view-all-item"><strong>{{'base.view_all' | translate}}</strong>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <!-- Subcategories --><ng-container *ngFor="let subCategory of category.subCategories"><ng-container *ngTemplateOutlet="desktopDropdownTemplate; context: {$implicit: subCategory}"></ng-container>
+            </ng-container>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Recursive Desktop Dropdown Template -->
+<ng-template
+  #desktopDropdownTemplate
+  let-category>
+  <li [class.dropdown-submenu]="hasSubCategories(category)">
+    
+    <a
+      [routerLink]="['/category', category.slug]"
+      class="dropdown-item"
+      [class.has-submenu]="hasSubCategories(category)">
+      {{category.name}}
+      <i
+        *ngIf="hasSubCategories(category)"
+        class="fa fa-chevron-right float-end"></i>
+    </a>
+
+    
+    <!-- Nested Dropdown -->
+    
+    <ul
+      *ngIf="hasSubCategories(category)"
+      class="dropdown-menu submenu">
+      <!-- View All Link -->
+      <li>
+        <a
+          [routerLink]="['/category', category.slug]"
+          class="dropdown-item view-all-item"><strong>{{'base.view_all' | translate}}</strong>
+        </a>
+      </li>
+      <li>
+        <hr class="dropdown-divider">
+      </li>
+      <!-- Recursive Subcategories --><ng-container *ngFor="let subCategory of category.subCategories"><ng-container *ngTemplateOutlet="desktopDropdownTemplate; context: {$implicit: subCategory}"></ng-container>
+      </ng-container>
+    </ul>
+  </li>
+</ng-template>
+
+<!-- Mobile Menu Offcanvas -->
+<div
+  [class.show]="isMobileMenuOpen"
+  class="offcanvas offcanvas-start bg-red text-white d-lg-none"
+  tabindex="-1"
+  id="mobileMenu">
+
+  <div class="offcanvas-header border-bottom border-white border-opacity-25">
+    <h5 class="offcanvas-title">{{'base.menu' | translate}}</h5>
+    <button
+      type="button"
+      class="btn-close btn-close-white"
+      (click)="toggleMobileMenu()"
+      [attr.aria-label]="'base.close' | translate"></button>
+  </div>
+
+  <div class="offcanvas-body p-0">
+    <!-- Mobile Search -->
+    <div class="p-3 border-bottom border-white border-opacity-25">
+      <form (submit)="onSearch(); toggleMobileMenu(); $event.preventDefault()">
+        <div class="input-group">
+          <input
+            type="search"
+            class="form-control"
+            [placeholder]="'base.search' | translate"
+            [(ngModel)]="searchQuery"
+            name="mobileSearch">
+          <button
+            class="btn btn-light"
+            type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Mobile Categories -->
+    <ul class="navbar-nav mobile-nav">
+      <ng-container *ngFor="let category of categories">
+        <ng-container *ngTemplateOutlet="categoryTemplate; context: {$implicit: category, level: 0}"></ng-container>
+      </ng-container>
+    </ul>
+
+    <!-- Mobile Cart & Language -->
+    <div class="p-3 border-top border-white border-opacity-25 mt-auto d-flex gap-2">
+      <button
+        class="btn btn-light btn-lang-switch-mobile"
+        (click)="switchLanguage()"
+        [title]="(currentLang === 'sr' ? ('lang.english' | translate) : ('lang.serbian' | translate))">
+        {{ currentLang === 'sr' ? 'EN' : 'SR' }}
+      </button>
+      <a
+        [routerLink]="['/cart']"
+        (click)="toggleMobileMenu()"
+        class="btn btn-light flex-grow-1">
+        <i class="fa fa-shopping-cart me-2"></i>
+        {{'base.cart' | translate}}: {{cartTotal | currency}}
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Recursive Category Template -->
+<ng-template
+  #categoryTemplate
+  let-category
+  let-level="level">
+  <li class="nav-item">
+    
+    <!-- Main Category - Not clickable if has subcategories -->
+    
+    <div
+      *ngIf="hasSubCategories(category); else noSubcategories"
+      class="nav-link border-bottom border-white border-opacity-25 d-flex justify-content-between align-items-center"
+      [ngClass]="level === 0 ? 'px-4 py-3' : 'px-5 py-2'"
+      (click)="toggleMobileCategory(category.id)">
+      <span>{{category.name}}</span>
+      <i
+        class="fa fa-chevron-right"
+        [class.fa-chevron-down]="isMobileCategoryOpen(category.id)"></i>
+    </div>
+
+    
+    <!-- Main Category - Clickable if no subcategories -->
+    
+    <ng-template #noSubcategories>
+      <a
+        class="nav-link border-bottom border-white border-opacity-25 d-flex justify-content-between align-items-center"
+        [ngClass]="level === 0 ? 'px-4 py-3' : 'px-5 py-2'"
+        [routerLink]="['/category', category.slug]"
+        (click)="toggleMobileMenu()">
+        <span>{{category.name}}</span>
+      </a>
+    </ng-template>
+
+    
+    <!-- Subcategories (All Levels) -->
+    
+    <div
+      class="mobile-subcategories"
+      [class.expanded]="isMobileCategoryOpen(category.id)"
+      [style.background-color]="level === 0 ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.3)'">
+      <ul
+        *ngIf="hasSubCategories(category)"
+        class="navbar-nav">
+        <!-- View All Link -->
+        <li class="nav-item">
+          <a
+            class="nav-link px-5 py-2 border-bottom border-white border-opacity-25"
+            [routerLink]="['/category', category.slug]"
+            (click)="toggleMobileMenu()"><span>{{'base.view_all' | translate}}</span>
+          </a>
+        </li>
+        <!-- Recursive Subcategories --><ng-container *ngFor="let subCategory of category.subCategories"><ng-container *ngTemplateOutlet="categoryTemplate; context: {$implicit: subCategory, level: level + 1}"></ng-container>
+        </ng-container>
+      </ul>
+    </div>
+  </li>
+</ng-template>
+
+<!-- Backdrop for mobile menu -->
+<div
+  *ngIf="isMobileMenuOpen"
+  class="offcanvas-backdrop fade d-lg-none"
+  (click)="toggleMobileMenu()"></div>

@@ -1,0 +1,119 @@
+{
+  "base": {
+    "cart": "Cart",
+    "back": "Back",
+    "add": "Add",
+    "total": "Total",
+    "thanks": "Thanks",
+    "search": "Search",
+    "menu": "Menu",
+    "view_all": "View All",
+    "close": "Close",
+    "toggle_navigation": "Toggle navigation",
+    "search_results": "Search Results",
+    "results": "results",
+    "clear_search": "Clear Search",
+    "previous": "Previous",
+    "next": "Next",
+    "showing": "Showing",
+    "of": "of",
+    "products": "products",
+    "home": "Home",
+    "loading": "Loading..."
+  },
+  "lang": {
+    "switch_to": "SR",
+    "current": "EN",
+    "english": "English",
+    "serbian": "Serbian"
+  },
+  "cart": {
+    "checkout": "Checkout",
+    "place_order": "Place Order",
+    "subtotal": "Subtotal",
+    "qty": "Qty",
+    "remove": "Remove from cart",
+    "checkout_details": "Checkout Details",
+    "order_summary": "Order Summary",
+    "processing": "Processing...",
+    "max_qty_reached": "Maximum quantity reached",
+    "field": {
+      "fullName": "Full name",
+      "address": "Address",
+      "city": "City",
+      "zip": "ZIP Code",
+      "email": "Email",
+      "phone": "Phone number",
+      "notes": "Notes",
+      "enter_name": "Enter your full name",
+      "enter_email": "Enter your email address",
+      "enter_address": "Enter delivery address",
+      "enter_city": "Enter city",
+      "enter_zip": "Enter ZIP code",
+      "enter_phone": "Enter phone number",
+      "add_instructions": "Add any special instructions (optional)"
+    },
+    "error": {
+      "requiredFullName": "Full name is required!",
+      "requiredAddress": "Address is required!",
+      "requiredCity": "City is required!",
+      "requiredZip": "ZIP code is required!",
+      "requiredEmail": "Email is required!",
+      "requiredPhone": "Phone is required!",
+      "badEmailFormat": "Bad email format!",
+      "invalidEmail": "Invalid email format!"
+    },
+    "empty": "Cart is empty!",
+    "orderOnTheWay": "Your order is on the way!",
+    "minOrderTotalMsg": "Minimum order for delivery is {{param}}!",
+    "closed": "Closed!!!"
+  },
+  "product": {
+    "in_stock": "In Stock",
+    "out_of_stock": "Out of Stock",
+    "available": "available",
+    "in_cart": "in cart",
+    "sku": "SKU",
+    "choose_option": "Choose Option",
+    "quantity": "Quantity",
+    "maximum": "Maximum",
+    "add_to_cart": "ADD TO CART",
+    "added_to_cart": "ADDED TO CART!",
+    "added": "ADDED",
+    "out_of_stock_btn": "OUT OF STOCK",
+    "description": "Description"
+  },
+  "shop": {
+    "all_products": "All Products",
+    "no_products_search": "No products found matching",
+    "no_products_category": "No products available in this category.",
+    "no_products": "No products available",
+    "check_back": "Check back soon for new items!"
+  },
+  "not_found": {
+    "title": "Oops! That page can't be found.",
+    "message": "It looks like nothing was found at this location. Maybe try the link below?",
+    "go_home": "Go Home"
+  },
+  "footer": {
+    "description": "Creating amazing digital experiences for our customers worldwide.",
+    "all_rights": "All rights reserved.",
+    "company": "Company",
+    "support": "Support",
+    "legal": "Legal",
+    "links": {
+      "about": "About Us",
+      "careers": "Careers",
+      "press": "Press",
+      "blog": "Blog",
+      "help": "Help Center",
+      "contact": "Contact Us",
+      "faq": "FAQ",
+      "terms": "Terms of Service",
+      "privacy": "Privacy Policy",
+      "cookies": "Cookie Policy",
+      "disclaimer": "Disclaimer",
+      "sitemap": "Sitemap"
+    }
+  }
+}

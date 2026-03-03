@@ -1,0 +1,43 @@
+version: "3.8"
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: videogear-nginx
+    working_dir: /application
+    volumes:
+      - ${ROOT_PATH}:/application
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "80:80"
+
+  db:
+    image: mariadb:11.0
+    container_name: videogear-db
+    working_dir: /application
+    env_file:
+      - ./docker-database.env
+    ports:
+      - "3306:3306"
+
+  php-fpm:
+    build: ./php-fpm
+    container_name: videogear-php-fpm
+    working_dir: /application
+    volumes:
+      - ${ROOT_PATH}:/application
+      - ./php-fpm/php-ini-overrides.ini:/etc/php/7.3/fpm/conf.d/99-overrides.ini
+    ports:
+      - "9000:9000"
+
+  frontend:
+    build:
+      context: ${ROOT_PATH}
+      dockerfile: ./docker/dev/frontend/Dockerfile
+    container_name: videogear-frontend
+    working_dir: /application
+    ports:
+      - "4200:4200"
+    volumes:
+      - ${ROOT_PATH}/frontend:/application
+    environment:
+      - CHOKIDAR_USEPOLLING=true

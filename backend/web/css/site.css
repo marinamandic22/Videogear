@@ -1,0 +1,122 @@
+[data-pjax-container] {
+    position: relative;
+}
+
+.pjax-loader-container {
+    position: absolute;
+    top: 0;
+    opacity: 0.5;
+    width: 100%;
+    height: 100%;
+    background: var(--col-secondary);
+    display: flex;
+}
+
+.pjax-loader-container > i {
+    margin: auto;
+}
+
+.tox-tinymce,
+.form-control {
+    border-radius: 4px;
+}
+
+.text-light {
+    color: var(--col-white) !important;
+}
+
+/* TREE-GRID EXPANDER - START */
+
+.treegrid-expander {
+    background-image: none !important;
+    font-family: 'Font Awesome 5 Free', serif;
+    height: fit-content;
+    margin-right: 0.5rem;
+    font-size: var(--font-md);
+    font-weight: 900;
+}
+
+.treegrid-expander-expanded:after {
+    content: '\f078';
+}
+
+.treegrid-expander-collapsed:after {
+    content: '\f054';
+}
+
+.treegrid-collapse-toggle {
+    font-size: var(--font-lg);
+    cursor: pointer;
+}
+
+.expand-all:not(.active),
+.collapse-all:not(.active) {
+    color: var(--col-violet);
+    font-weight: 600;
+}
+
+.expand-all:not(.active):hover, .expand-all:not(.active):active,
+.collapse-all:not(.active):hover, .collapse-all:not(.active):active {
+    color: var(--col-violet-dimmed);
+}
+
+/* TREE-GRID EXPANDER - END */
+
+.tox-tinymce {
+    min-height: 120px;
+}
+
+.thumb {
+    box-shadow: 0 2px 4px var(--col-light-slate-gray);
+    border-radius: 6px;
+}
+
+.thumb-xs {
+    width: 35px;
+    height: 35px;
+}
+
+.dropdown .dropdown-item,
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.line-order-item {
+    min-height: 40px;
+}
+
+.line-order-item .image > img {
+    background: #eee;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-right: 20px;
+    object-fit: cover;
+    width: 80px;
+}
+
+.line-order-item .name {
+    margin-right: auto;
+}
+
+.line-order-item .total {
+    min-width: 100px;
+    padding-left: 8px;
+}
+
+.line-order-item .quantity {
+    padding-left: 16px;
+}
+
+.line-order-item .quantity, .line-order-item .total {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.cb-padding {
+    padding: 1.25rem;
+}
+
+.login-logo {
+    width: 320px;
+    max-width: 100%;
+}

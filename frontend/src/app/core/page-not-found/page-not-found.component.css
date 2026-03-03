@@ -1,0 +1,14 @@
+body {
+  background: var(--col-secondary);
+}
+
+.page-not-found {
+  margin-top: 5%;
+  margin-bottom: 10%;
+}
+
+.page-not-found .error-code {
+  font-size: 10rem;
+  font-weight: 500;
+  color: var(--col-primary);
+}

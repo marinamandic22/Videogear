@@ -1,0 +1,278 @@
+/* Main Image */
+.main-image-container {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  padding: 24px;
+}
+
+.main-image-container:hover {
+  transform: scale(1.02);
+}
+
+.main-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.no-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  background-color: #f8f9fa;
+}
+
+/* Thumbnail Gallery */
+.thumbnail-gallery {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.thumbnail-item {
+  width: 80px;
+  height: 80px;
+  border: 2px solid #dee2e6;
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.thumbnail-item:hover {
+  border-color: #dc3545;
+  transform: scale(1.05);
+}
+
+.thumbnail-item.active {
+  border-color: #dc3545;
+}
+
+.thumbnail-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Product Info */
+.product-info {
+}
+
+.product-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #212529;
+}
+
+.product-meta {
+  font-size: 0.95rem;
+}
+
+.short-description {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #6c757d;
+}
+
+/* Price Section */
+.price-section {
+}
+
+.price-main {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #dc3545;
+  margin-bottom: 0.25rem;
+}
+
+.price-vat {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+/* Quantity Controls */
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 200px;
+}
+
+.quantity-controls input {
+  flex: 1;
+  max-width: 80px;
+  text-align: center;
+  border-color: #6c757d;
+  padding: 7px;
+}
+
+.quantity-controls button {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Add to Cart Button */
+.btn-add-to-cart {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: white;
+  font-weight: 600;
+  padding: 15px 30px;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+
+.btn-add-to-cart:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+}
+
+/* Add to Cart Button - Added State */
+.btn-add-to-cart.btn-added {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Checkmark Animation */
+.btn-add-to-cart .fa-check {
+  animation: checkmark 0.4s ease;
+}
+
+@keyframes checkmark {
+  0% {
+    transform: scale(0) rotate(-45deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.3) rotate(0deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+/* Product Features */
+.product-features {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px 0;
+  border-top: 1px solid #dee2e6;
+  margin-top: 20px;
+}
+
+.feature-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+.feature-item i {
+  font-size: 1.5rem;
+  color: #dc3545;
+}
+
+/* Variants Section */
+.variants-section .form-select {
+  border: 2px solid #dee2e6;
+  padding: 10px;
+  font-size: 1rem;
+}
+
+.variants-section .form-select:focus {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+/* Description Section */
+.product-description {
+  line-height: 1.8;
+  font-size: 1rem;
+}
+
+.product-description h1,
+.product-description h2,
+.product-description h3 {
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.product-description ul,
+.product-description ol {
+  padding-left: 2rem;
+  margin-bottom: 1rem;
+}
+
+.product-description img {
+  max-width: 100%;
+  height: auto;
+  margin: 1rem 0;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  background-color: transparent;
+  padding: 0;
+  margin-bottom: 1.5rem;
+}
+
+.breadcrumb-item a {
+  color: #dc3545;
+  text-decoration: none;
+}
+
+.breadcrumb-item a:hover {
+  text-decoration: underline;
+}
+
+/* Availability Badge */
+.availability .badge {
+  font-size: 0.9rem;
+  padding: 8px 15px;
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+  .product-title {
+    font-size: 1.5rem;
+  }
+
+  .price-main {
+    font-size: 1.75rem;
+  }
+
+  .product-features {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .feature-item {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 576px) {
+  .thumbnail-gallery {
+    justify-content: center;
+  }
+
+  .thumbnail-item {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+/* === Content fades in after loader disappears (timing managed globally) === */

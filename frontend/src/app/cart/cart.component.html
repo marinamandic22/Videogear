@@ -1,0 +1,121 @@
+<ecm-header></ecm-header>
+
+<div class="container py-4 content-fade-in">
+  <div id="cart" class="cart-modern">
+    <div class="cart-header">
+      <h4 class="cart-title">
+        <i class="fa fa-shopping-cart me-2"></i>
+        {{'base.cart' | translate}}
+      </h4>
+    </div>
+
+    <div class="cart-body">
+      <div *ngIf="!checkoutActive">
+        <!-- Cart Items -->
+        <div *ngIf="items.length > 0" class="cart-items-list">
+          <div *ngFor="let item of items" class="cart-item-modern">
+            <div class="cart-item-image">
+              <img
+                *ngIf="item.cover_image_id"
+                [src]="getImageUrl(item.cover_image_id)"
+                [alt]="item.name"
+                class="img-fluid">
+              <div *ngIf="!item.cover_image_id" class="no-image-placeholder">
+                <i class="fa fa-image"></i>
+              </div>
+            </div>
+
+            <div class="cart-item-details">
+              <h6 class="cart-item-name">{{item.name}}</h6>
+              <p class="cart-item-sku text-muted mb-1">{{ 'product.sku' | translate }}: {{item.sku}}</p>
+              <div class="cart-item-quantity-price">
+                <div class="cart-qty-controls">
+                  <button
+                    class="cart-qty-btn"
+                    type="button"
+                    (click)="decreaseQuantity(item)"
+                    [disabled]="item.quantity <= 1">
+                    <i class="fa fa-minus"></i>
+                  </button>
+                  <span class="cart-qty-value">{{item.quantity}}</span>
+                  <button
+                    class="cart-qty-btn"
+                    type="button"
+                    (click)="increaseQuantity(item)"
+                    [disabled]="isAtMaxQuantity(item)"
+                    [title]="isAtMaxQuantity(item) ? ('cart.max_qty_reached' | translate) : ''">
+                    <i class="fa fa-plus"></i>
+                  </button>
+                  <span *ngIf="isAtMaxQuantity(item)" class="cart-qty-max-msg text-muted ms-1">
+                    <i class="fa fa-info-circle"></i> {{ 'cart.max_qty_reached' | translate }}
+                  </span>
+                </div>
+                <span class="item-price">{{(item.price * item.quantity) | currency}}</span>
+              </div>
+            </div>
+
+            <button
+              (click)="removeFromCart(item)"
+              class="btn-remove"
+              [title]="'cart.remove' | translate"
+              type="button">
+              <i class="fa fa-trash"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Empty Cart Message -->
+        <div *ngIf="items.length < 1" class="cart-empty-modern">
+          <i class="fa fa-shopping-cart fa-3x text-muted mb-3"></i>
+          <p>{{'cart.empty' | translate}}</p>
+        </div>
+      </div>
+
+      <!-- Cart Total -->
+      <div *ngIf="items.length > 0 && !checkoutActive" class="cart-total-modern">
+        <div class="total-breakdown">
+          <div class="total-row subtotal-row">
+            <span class="total-label">{{'cart.subtotal' | translate}}:</span>
+            <span class="total-amount">{{subtotal | currency}}</span>
+          </div>
+          <div class="total-row tax-row">
+            <span class="total-label">{{vatLabel}} ({{(vatRate * 100)}}%):</span>
+            <span class="total-amount">{{tax | currency}}</span>
+          </div>
+          <div class="total-row final-total-row">
+            <span class="total-label">{{'base.total' | translate}}:</span>
+            <span class="total-amount">{{total | currency}}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Checkout Button -->
+      <ng-container *ngIf="!isCheckoutActive()">
+        <div *ngIf="showToggleCheckout()" class="cart-actions">
+          <button
+            class="btn btn-lg btn-danger w-100"
+            (click)="toggleCheckout()">
+            <i class="fa fa-lock me-2"></i>
+            {{'cart.checkout' | translate}}
+          </button>
+        </div>
+      </ng-container>
+
+      <!-- Checkout Component -->
+      <div *ngIf="isCheckoutActive()">
+        <ecm-checkout
+          (backClicked)="toggleCheckout()"
+          (checkoutCompleted)="onOrderCompleted()"
+          [items]="items"
+          [subtotal]="subtotal"
+          [tax]="tax"
+          [total]="total"
+          [vatRate]="vatRate"
+          [vatLabel]="vatLabel">
+        </ecm-checkout>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ecm-footer></ecm-footer>

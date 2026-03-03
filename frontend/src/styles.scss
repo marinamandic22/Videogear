@@ -1,0 +1,142 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.min.css";
+@import "~font-awesome/css/font-awesome.min.css";
+
+:root {
+  --col-lemon-yellow: #fffcc6;
+  --col-violet: #9884fc;
+  --col-violet-dimmed: #6554b9;
+  --col-primary: #446CB3;
+  --col-primary-light: #4a6f95;
+  --col-secondary: #ededed;
+  --col-secondary-dimmed: #e5e5e5;
+  --col-success-light: #A2DED0;
+  --col-success: #26b99a;
+  --col-success-dimmed: #1a8c75;
+  --col-danger: #dc3545;
+  --col-danger-dimmed: #be1f3d;
+  --col-white: #fff;
+  --col-picton-blue: #4b8fc9;
+  --col-skin-tone: #ddd2c6;
+  --col-light-blue: #eff0f1;
+  --col-gray-neutral: #f7f7f7;
+  --col-light-slate-gray: #73879c;
+  --col-dark-grey: #5a738e;
+  --col-agate-gray: #c3c3c3;
+
+  --font-sm: 10px;
+  --font-md: 12px;
+  --font-lg: 14px;
+  --font-xl: 16px;
+
+  --lh-lg: 22px;
+  --lh-xl: 24px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+    outline: none;
+}
+
+
+.btn-primary {
+  background: var(--col-primary);
+  border-color: var(--col-primary);
+}
+
+.btn-primary:hover, .btn-primary:active, .btn-primary:focus,
+.btn-primary.disabled, .btn-primary:disabled {
+  background: var(--col-primary-light);
+  border-color: var(--col-primary-light);
+}
+
+.bg-deep-blue {
+  background-color: var(--col-primary);
+}
+
+.btn-light {
+  color: var(--col-primary);
+}
+
+.btn-light:hover {
+  color: var(--col-primary-light);
+}
+
+.btn.btn-success {
+  background: var(--col-success) !important;
+}
+
+.btn-success {
+  background: var(--col-success);
+  border: unset !important;
+  box-shadow: unset!important;
+}
+
+.btn-success:active,
+.btn-success:hover,
+.btn-success:focus,
+.btn-success:focus-within,
+.btn-success[disabled] {
+  background: var(--col-success-dimmed) !important;
+}
+
+.btn-secondary {
+  background: var(--col-secondary);
+  border: 1px solid var(--col-secondary);
+  color: var(--col-primary) !important;
+}
+
+.btn-secondary:active,
+.btn-secondary:hover,
+.btn-secondary:focus,
+.btn-secondary:focus-within {
+  background: var(--col-secondary-dimmed) !important;
+  border: 1px solid var(--col-secondary-dimmed) !important;
+}
+
+.btn.btn-just-icon {
+  border-radius: 50px !important;
+  height: 32px;
+  width: 32px;
+  min-width: 32px;
+  padding: 4px;
+  line-height: 0;
+  border: 1px solid transparent;
+}
+
+.card {
+  min-width: 100%;
+  border: unset;
+  border-radius: 3px;
+}
+
+/* ========== Global Transition Utilities ========== */
+@keyframes contentFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/*
+ * Delay matches loader fade-out (0.28s) so content only appears
+ * once the loading overlay is fully gone — no jarring overlap.
+ * "both" fill-mode ensures the element starts invisible during the delay.
+ */
+.content-fade-in {
+  animation: contentFadeIn 0.35s ease-out 0.28s both;
+}
+
+.content-hidden {
+  opacity: 0;
+  pointer-events: none;
+  min-height: 360px;
+  visibility: hidden;
+}
